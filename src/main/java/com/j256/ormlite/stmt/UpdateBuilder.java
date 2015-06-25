@@ -155,7 +155,7 @@ public class UpdateBuilder<T, ID> extends StatementBuilder<T, ID> {
 		// noop
 	}
 
-	private void addUpdateColumnToList(String columnName, Clause clause) {
+	public void addUpdateColumnToList(String columnName, Clause clause) {
 		if (updateClauseList == null) {
 			updateClauseList = new ArrayList<Clause>();
 		}

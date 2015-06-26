@@ -34,7 +34,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseResults;
 import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.ObjectFactory;
-import com.j256.ormlite.table.TableInfoImpl;
+import com.j256.ormlite.table.TableInfo;
 
 /**
  * Base class for the Database Access Objects that handle the reading and writing a class from the database.
@@ -72,7 +72,7 @@ public abstract class BaseDaoImpl<T, ID> implements Dao<T, ID> {
 	protected DatabaseType databaseType;
 	protected final Class<T> dataClass;
 	protected DatabaseTableConfig<T> tableConfig;
-	protected TableInfoImpl<T, ID> tableInfo;
+	protected TableInfo<T, ID> tableInfo;
 	protected ConnectionSource connectionSource;
 	protected CloseableIterator<T> lastIterator;
 	protected ObjectFactory<T> objectFactory;
@@ -152,10 +152,10 @@ public abstract class BaseDaoImpl<T, ID> implements Dao<T, ID> {
 					+ getClass().getSimpleName());
 		}
 		if (tableConfig == null) {
-			tableInfo = new TableInfoImpl<T, ID>(connectionSource, this, dataClass);
+			tableInfo = new TableInfo<T, ID>(connectionSource, this, dataClass);
 		} else {
 			tableConfig.extractFieldTypes(connectionSource);
-			tableInfo = new TableInfoImpl<T, ID>(databaseType, this, tableConfig);
+			tableInfo = new TableInfo<T, ID>(databaseType, this, tableConfig);
 		}
 		statementExecutor = new StatementExecutor<T, ID>(databaseType, tableInfo, this);
 
@@ -942,7 +942,7 @@ public abstract class BaseDaoImpl<T, ID> implements Dao<T, ID> {
 	/**
 	 * Used by internal classes to get the table information structure for the Dao's class.
 	 */
-	public TableInfoImpl<T, ID> getTableInfo() {
+	public TableInfo<T, ID> getTableInfo() {
 		return tableInfo;
 	}
 
@@ -977,7 +977,7 @@ public abstract class BaseDaoImpl<T, ID> implements Dao<T, ID> {
 	}
 
 	/**
-	 * Helper method to create a Dao object used by some internal methods that already have the {@link TableInfoImpl}.
+	 * Helper method to create a Dao object used by some internal methods that already have the {@link TableInfo}.
 	 * 
 	 * <p>
 	 * <b>NOTE:</b> You should use {@link DaoManager#createDao(ConnectionSource, DatabaseTableConfig)} instead of this

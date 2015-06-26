@@ -9,7 +9,6 @@ import org.junit.Before;
 import com.j256.ormlite.BaseCoreTest;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.table.TableInfo;
-import com.j256.ormlite.table.TableInfoImpl;
 
 public abstract class BaseCoreStmtTest extends BaseCoreTest {
 
@@ -36,6 +35,6 @@ public abstract class BaseCoreStmtTest extends BaseCoreTest {
 		foreignFieldType = FieldType.createFieldType(connectionSource, "BaseFoo", field, Foreign.class);
 		foreignFieldType.configDaoInformation(connectionSource, Foreign.class);
 
-		baseFooTableInfo = new TableInfoImpl<Foo, Integer>(connectionSource, null, Foo.class);
+		baseFooTableInfo = new TableInfo<Foo, Integer>(connectionSource, null, Foo.class);
 	}
 }

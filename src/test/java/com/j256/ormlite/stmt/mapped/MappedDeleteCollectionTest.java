@@ -14,7 +14,7 @@ import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
-import com.j256.ormlite.table.TableInfoImpl;
+import com.j256.ormlite.table.TableInfo;
 
 public class MappedDeleteCollectionTest {
 
@@ -27,7 +27,7 @@ public class MappedDeleteCollectionTest {
 		expect(connectionSource.getDatabaseType()).andReturn(databaseType).anyTimes();
 		replay(connectionSource);
 		MappedDeleteCollection.deleteObjects(databaseType,
-				new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class), databaseConnection,
+				new TableInfo<NoId, Void>(connectionSource, null, NoId.class), databaseConnection,
 				new ArrayList<NoId>(), null);
 	}
 

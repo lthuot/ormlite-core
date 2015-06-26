@@ -22,13 +22,13 @@ import com.j256.ormlite.stmt.StatementBuilder.StatementType;
 import com.j256.ormlite.support.CompiledStatement;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
-import com.j256.ormlite.table.TableInfoImpl;
+import com.j256.ormlite.table.TableInfo;
 
 public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testUpdateThrow() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
 		@SuppressWarnings("unchecked")
 		PreparedUpdate<Foo> update = createMock(PreparedUpdate.class);
@@ -50,7 +50,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testDeleteThrow() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
 		@SuppressWarnings("unchecked")
 		PreparedDelete<Foo> delete = createMock(PreparedDelete.class);
@@ -72,7 +72,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testCallBatchTasksNoAutoCommit() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 
 		ConnectionSource connectionSource = createMock(ConnectionSource.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
@@ -98,7 +98,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testCallBatchTasksAutoCommitFalse() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 
 		ConnectionSource connectionSource = createMock(ConnectionSource.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
@@ -125,7 +125,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testCallBatchTasksAutoCommitTrue() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 
 		ConnectionSource connectionSource = createMock(ConnectionSource.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
@@ -154,7 +154,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testCallBatchTasksAutoCommitTrueSynchronized() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 
 		ConnectionSource connectionSource = createMock(ConnectionSource.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);
@@ -183,7 +183,7 @@ public class StatementExecutorTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testCallBatchTasksAutoCommitTrueThrow() throws Exception {
-		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
+		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
 
 		ConnectionSource connectionSource = createMock(ConnectionSource.class);
 		DatabaseConnection connection = createMock(DatabaseConnection.class);

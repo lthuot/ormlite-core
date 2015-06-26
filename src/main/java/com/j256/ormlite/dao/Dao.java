@@ -26,7 +26,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseResults;
 import com.j256.ormlite.table.ObjectFactory;
-import com.j256.ormlite.table.TableInfo;
 
 /**
  * The definition of the Database Access Objects that handle the reading and writing a class from the database. Kudos to
@@ -836,7 +835,7 @@ public interface Dao<T, ID> extends CloseableIterable<T> {
 	public void setObjectFactory(ObjectFactory<T> objectFactory);
 
 	/**
-	 * Register an observer that will be called when data changes for this DAO. You must make a call to
+	 * Register an observer that will be called when data changes for this DAO. You mustq make a call to
 	 * {@link #unregisterObserver(DaoObserver)} to de-register the observer after you are done with it.
 	 */
 	public void registerObserver(DaoObserver observer);
@@ -846,12 +845,6 @@ public interface Dao<T, ID> extends CloseableIterable<T> {
 	 */
 	public void unregisterObserver(DaoObserver observer);
 
-	/**
-	 * Get the TableInfo associated with this Dao
-	 * @return The TableInfo
-	 */
-	public TableInfo<T, ID> getTableInfo();
-	
 	/**
 	 * Notify any registered {@link DaoObserver}s that the underlying data may have changed. This is done automatically
 	 * when using {@link #create(Object)}, {@link #update(Object)}, or {@link #delete(Object)} type methods. Batch

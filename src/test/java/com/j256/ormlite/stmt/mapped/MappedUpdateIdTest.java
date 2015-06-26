@@ -12,7 +12,7 @@ import com.j256.ormlite.db.BaseDatabaseType;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedUpdateIdTest {
 
@@ -27,7 +27,7 @@ public class MappedUpdateIdTest {
 
 	@Test(expected = SQLException.class)
 	public void testUpdateIdNoId() throws Exception {
-		MappedUpdateId.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class));
+		MappedUpdateId.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class));
 	}
 
 	protected static class NoId {

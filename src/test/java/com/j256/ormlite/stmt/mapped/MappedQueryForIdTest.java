@@ -13,26 +13,26 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.BaseCoreStmtTest;
 import com.j256.ormlite.stmt.StatementExecutor;
 import com.j256.ormlite.table.DatabaseTable;
-import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedQueryForIdTest extends BaseCoreStmtTest {
 
 	@Test(expected = SQLException.class)
 	public void testQueryNoId() throws Exception {
 		StatementExecutor<NoId, String> se =
-				new StatementExecutor<NoId, String>(databaseType, new TableInfo<NoId, String>(connectionSource, null,
+				new StatementExecutor<NoId, String>(databaseType, new TableInfoImpl<NoId, String>(connectionSource, null,
 						NoId.class), null);
 		se.queryForId(null, "1", null);
 	}
 
 	@Test(expected = SQLException.class)
 	public void testNoIdBuildUpdater() throws Exception {
-		MappedUpdate.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class));
+		MappedUpdate.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class));
 	}
 
 	@Test(expected = SQLException.class)
 	public void testNoIdBuildQueryForId() throws Exception {
-		MappedQueryForId.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class), null);
+		MappedQueryForId.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class), null);
 	}
 
 	@Test

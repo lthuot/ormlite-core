@@ -13,7 +13,7 @@ import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.StatementExecutor;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedDeleteTest {
 
@@ -29,7 +29,7 @@ public class MappedDeleteTest {
 	@Test(expected = SQLException.class)
 	public void testDeleteNoId() throws Exception {
 		StatementExecutor<NoId, Void> se =
-				new StatementExecutor<NoId, Void>(databaseType, new TableInfo<NoId, Void>(connectionSource, null,
+				new StatementExecutor<NoId, Void>(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null,
 						NoId.class), null);
 		NoId noId = new NoId();
 		noId.stuff = "1";
@@ -41,7 +41,7 @@ public class MappedDeleteTest {
 
 	@Test(expected = SQLException.class)
 	public void testNoIdBuildDelete() throws Exception {
-		MappedDelete.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class));
+		MappedDelete.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class));
 	}
 
 	protected static class NoId {

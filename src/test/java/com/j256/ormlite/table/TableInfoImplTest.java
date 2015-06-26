@@ -18,34 +18,34 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.DatabaseFieldConfig;
 
-public class TableInfoTest extends BaseCoreTest {
+public class TableInfoImplTest extends BaseCoreTest {
 
 	private final static String TABLE_NAME = "tablename";
 	private final static String COLUMN_NAME = "column2";
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testTableInfo() throws SQLException {
-		new TableInfo<NoFieldAnnotations, Void>(connectionSource, null, NoFieldAnnotations.class);
+		new TableInfoImpl<NoFieldAnnotations, Void>(connectionSource, null, NoFieldAnnotations.class);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNoNoArgConstructor() throws SQLException {
-		new TableInfo<NoNoArgConstructor, Void>(connectionSource, null, NoNoArgConstructor.class);
+		new TableInfoImpl<NoNoArgConstructor, Void>(connectionSource, null, NoNoArgConstructor.class);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testObjectNoFields() throws SQLException {
-		new TableInfo<NoFields, Void>(connectionSource, null, NoFields.class);
+		new TableInfoImpl<NoFields, Void>(connectionSource, null, NoFields.class);
 	}
 
 	@Test(expected = SQLException.class)
 	public void testObjectDoubleId() throws SQLException {
-		new TableInfo<DoubleId, String>(connectionSource, null, DoubleId.class);
+		new TableInfoImpl<DoubleId, String>(connectionSource, null, DoubleId.class);
 	}
 
 	@Test
 	public void testBasic() throws SQLException {
-		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
 		assertEquals(Foo.class, tableInfo.getDataClass());
 		assertEquals(TABLE_NAME, tableInfo.getTableName());
 		assertEquals(COLUMN_NAME, tableInfo.getIdField().getColumnName());
@@ -60,14 +60,14 @@ public class TableInfoTest extends BaseCoreTest {
 		Foo foo = new Foo();
 		foo.id = id;
 		assertEquals(id, foo.id);
-		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
 		assertTrue(tableInfo.objectToString(foo).contains(id));
 	}
 
 	@Test
 	public void testNoTableNameInAnnotation() throws Exception {
-		TableInfo<NoTableNameAnnotation, Void> tableInfo =
-				new TableInfo<NoTableNameAnnotation, Void>(connectionSource, null, NoTableNameAnnotation.class);
+		TableInfoImpl<NoTableNameAnnotation, Void> tableInfo =
+				new TableInfoImpl<NoTableNameAnnotation, Void>(connectionSource, null, NoTableNameAnnotation.class);
 		assertEquals(NoTableNameAnnotation.class.getSimpleName().toLowerCase(), tableInfo.getTableName());
 	}
 
@@ -77,19 +77,19 @@ public class TableInfoTest extends BaseCoreTest {
 				new DatabaseTableConfig<NoTableNameAnnotation>(NoTableNameAnnotation.class,
 						new ArrayList<DatabaseFieldConfig>());
 		tableConfig.extractFieldTypes(connectionSource);
-		new TableInfo<NoTableNameAnnotation, Void>(databaseType, null, tableConfig);
+		new TableInfoImpl<NoTableNameAnnotation, Void>(databaseType, null, tableConfig);
 	}
 
 	@Test
 	public void testConstruct() throws Exception {
-		TableInfo<Foo, String> tableInfo = new TableInfo<Foo, String>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, String> tableInfo = new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
 		Foo foo = tableInfo.createObject();
 		assertNotNull(foo);
 	}
 
 	@Test
 	public void testUnknownForeignField() throws Exception {
-		TableInfo<Foreign, Void> tableInfo = new TableInfo<Foreign, Void>(connectionSource, null, Foreign.class);
+		TableInfoImpl<Foreign, Void> tableInfo = new TableInfoImpl<Foreign, Void>(connectionSource, null, Foreign.class);
 		try {
 			tableInfo.getFieldTypeByColumnName("foo");
 			fail("expected exception");
@@ -118,7 +118,7 @@ public class TableInfoTest extends BaseCoreTest {
 	@Test
 	public void testHasColumnName() throws Exception {
 		Dao<Foo, String> dao = createDao(Foo.class, true);
-		TableInfo<Foo, String> tableInfo = ((BaseDaoImpl<Foo, String>) dao).getTableInfo();
+		TableInfoImpl<Foo, String> tableInfo = ((BaseDaoImpl<Foo, String>) dao).getTableInfo();
 		assertTrue(tableInfo.hasColumnName(COLUMN_NAME));
 		assertFalse(tableInfo.hasColumnName("not this name"));
 	}

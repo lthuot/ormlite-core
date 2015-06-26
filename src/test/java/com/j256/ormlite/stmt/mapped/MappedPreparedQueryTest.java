@@ -20,6 +20,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseResults;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedPreparedQueryTest extends BaseCoreTest {
 
@@ -32,7 +33,7 @@ public class MappedPreparedQueryTest extends BaseCoreTest {
 		fooDao.create(foo1);
 
 		TableInfo<LocalFoo, Integer> tableInfo =
-				new TableInfo<LocalFoo, Integer>(connectionSource, null, LocalFoo.class);
+				new TableInfoImpl<LocalFoo, Integer>(connectionSource, null, LocalFoo.class);
 		MappedPreparedStmt<LocalFoo, Integer> rowMapper =
 				new MappedPreparedStmt<LocalFoo, Integer>(tableInfo, null, new FieldType[0], tableInfo.getFieldTypes(),
 						new ArgumentHolder[0], null, StatementType.SELECT);
@@ -71,7 +72,7 @@ public class MappedPreparedQueryTest extends BaseCoreTest {
 		foos.add(foo);
 
 		TableInfo<LocalFoo, Integer> tableInfo =
-				new TableInfo<LocalFoo, Integer>(connectionSource, null, LocalFoo.class);
+				new TableInfoImpl<LocalFoo, Integer>(connectionSource, null, LocalFoo.class);
 		MappedPreparedStmt<LocalFoo, Integer> preparedQuery =
 				new MappedPreparedStmt<LocalFoo, Integer>(tableInfo, "select * from " + TABLE_NAME, new FieldType[0],
 						tableInfo.getFieldTypes(), new ArgumentHolder[0], 1L, StatementType.SELECT);
@@ -105,7 +106,7 @@ public class MappedPreparedQueryTest extends BaseCoreTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testObjectNoConstructor() throws SQLException {
-		new MappedPreparedStmt<NoConstructor, Void>(new TableInfo<NoConstructor, Void>(connectionSource, null,
+		new MappedPreparedStmt<NoConstructor, Void>(new TableInfoImpl<NoConstructor, Void>(connectionSource, null,
 				NoConstructor.class), null, new FieldType[0], new FieldType[0], new ArgumentHolder[0], null,
 				StatementType.SELECT);
 	}

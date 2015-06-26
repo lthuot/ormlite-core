@@ -14,6 +14,7 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class UpdateBuilderTest extends BaseCoreStmtTest {
 
@@ -110,7 +111,7 @@ public class UpdateBuilderTest extends BaseCoreStmtTest {
 		UpdateBuilder<OurForeignCollection, Integer> stmtb =
 				new UpdateBuilder<OurForeignCollection, Integer>(
 						databaseType,
-						new TableInfo<OurForeignCollection, Integer>(connectionSource, null, OurForeignCollection.class),
+						new TableInfoImpl<OurForeignCollection, Integer>(connectionSource, null, OurForeignCollection.class),
 						null);
 		stmtb.updateColumnValue(OurForeignCollection.FOOS_FIELD_NAME, null);
 	}
@@ -120,7 +121,7 @@ public class UpdateBuilderTest extends BaseCoreStmtTest {
 		UpdateBuilder<OurForeignCollection, Integer> stmtb =
 				new UpdateBuilder<OurForeignCollection, Integer>(
 						databaseType,
-						new TableInfo<OurForeignCollection, Integer>(connectionSource, null, OurForeignCollection.class),
+						new TableInfoImpl<OurForeignCollection, Integer>(connectionSource, null, OurForeignCollection.class),
 						null);
 		stmtb.updateColumnExpression(OurForeignCollection.FOOS_FIELD_NAME, "1");
 	}
@@ -138,7 +139,7 @@ public class UpdateBuilderTest extends BaseCoreStmtTest {
 		updateDate.date = new Date();
 		assertEquals(1, dao.create(updateDate));
 		TableInfo<UpdateDate, Integer> tableInfo =
-				new TableInfo<UpdateDate, Integer>(connectionSource, null, UpdateDate.class);
+				new TableInfoImpl<UpdateDate, Integer>(connectionSource, null, UpdateDate.class);
 		UpdateBuilder<UpdateDate, Integer> stmtb = new UpdateBuilder<UpdateDate, Integer>(databaseType, tableInfo, dao);
 		Date newDate = new Date(System.currentTimeMillis() + 10);
 		stmtb.updateColumnValue(UpdateDate.DATE_FIELD, newDate);

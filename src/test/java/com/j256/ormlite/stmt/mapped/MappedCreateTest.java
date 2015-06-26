@@ -32,6 +32,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.GeneratedKeyHolder;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedCreateTest extends BaseCoreStmtTest {
 
@@ -39,8 +40,8 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testGeneratedId() throws Exception {
-		TableInfo<GeneratedId, Integer> tableInfo =
-				new TableInfo<GeneratedId, Integer>(connectionSource, null, GeneratedId.class);
+		TableInfoImpl<GeneratedId, Integer> tableInfo =
+				new TableInfoImpl<GeneratedId, Integer>(connectionSource, null, GeneratedId.class);
 		StatementExecutor<GeneratedId, Integer> se =
 				new StatementExecutor<GeneratedId, Integer>(databaseType, tableInfo, null);
 		DatabaseConnection databaseConnection = createMock(DatabaseConnection.class);
@@ -63,8 +64,8 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 	public void testGeneratedIdSequence() throws Exception {
 		DatabaseType databaseType = new NeedsSequenceDatabaseType();
 		connectionSource.setDatabaseType(databaseType);
-		TableInfo<GeneratedId, Integer> tableInfo =
-				new TableInfo<GeneratedId, Integer>(connectionSource, null, GeneratedId.class);
+		TableInfoImpl<GeneratedId, Integer> tableInfo =
+				new TableInfoImpl<GeneratedId, Integer>(connectionSource, null, GeneratedId.class);
 		StatementExecutor<GeneratedId, Integer> se =
 				new StatementExecutor<GeneratedId, Integer>(databaseType, tableInfo, null);
 		DatabaseConnection databaseConnection = createMock(DatabaseConnection.class);
@@ -84,7 +85,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 		DatabaseType databaseType = new NeedsSequenceDatabaseType();
 		connectionSource.setDatabaseType(databaseType);
 		StatementExecutor<GeneratedIdLong, Long> se =
-				new StatementExecutor<GeneratedIdLong, Long>(databaseType, new TableInfo<GeneratedIdLong, Long>(
+				new StatementExecutor<GeneratedIdLong, Long>(databaseType, new TableInfoImpl<GeneratedIdLong, Long>(
 						connectionSource, null, GeneratedIdLong.class), null);
 		DatabaseConnection databaseConnection = createMock(DatabaseConnection.class);
 		expect(databaseConnection.queryForLong(isA(String.class))).andReturn(1L);
@@ -100,7 +101,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 
 	@Test
 	public void testNoCreateSequence() throws Exception {
-		MappedCreate.build(databaseType, new TableInfo<GeneratedId, Integer>(connectionSource, null, GeneratedId.class));
+		MappedCreate.build(databaseType, new TableInfoImpl<GeneratedId, Integer>(connectionSource, null, GeneratedId.class));
 	}
 
 	@Test(expected = SQLException.class)
@@ -110,7 +111,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 		replay(databaseConnection);
 		NeedsSequenceDatabaseType needsSequence = new NeedsSequenceDatabaseType();;
 		MappedCreate<GeneratedIdSequence, Integer> mappedCreate =
-				MappedCreate.build(needsSequence, new TableInfo<GeneratedIdSequence, Integer>(connectionSource, null,
+				MappedCreate.build(needsSequence, new TableInfoImpl<GeneratedIdSequence, Integer>(connectionSource, null,
 						GeneratedIdSequence.class));
 		mappedCreate.insert(needsSequence, databaseConnection, new GeneratedIdSequence(), null);
 		verify(databaseConnection);
@@ -268,7 +269,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 
 	@Test(expected = SQLException.class)
 	public void testArgumentHolderDoubleSet() throws Exception {
-		TableInfo<Foo, Integer> tableInfo = new TableInfo<Foo, Integer>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, Integer> tableInfo = new TableInfoImpl<Foo, Integer>(connectionSource, null, Foo.class);
 		MappedCreate<Foo, Integer> mappedCreate = MappedCreate.build(databaseType, tableInfo);
 		DatabaseConnection conn = createMock(DatabaseConnection.class);
 		expect(
@@ -287,7 +288,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 
 	@Test(expected = SQLException.class)
 	public void testArgumentHolderSetZero() throws Exception {
-		TableInfo<Foo, Integer> tableInfo = new TableInfo<Foo, Integer>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, Integer> tableInfo = new TableInfoImpl<Foo, Integer>(connectionSource, null, Foo.class);
 		MappedCreate<Foo, Integer> mappedCreate = MappedCreate.build(databaseType, tableInfo);
 		DatabaseConnection conn = createMock(DatabaseConnection.class);
 		expect(
@@ -305,7 +306,7 @@ public class MappedCreateTest extends BaseCoreStmtTest {
 
 	@Test(expected = SQLException.class)
 	public void testArgumentHolderNotSet() throws Exception {
-		TableInfo<Foo, Integer> tableInfo = new TableInfo<Foo, Integer>(connectionSource, null, Foo.class);
+		TableInfoImpl<Foo, Integer> tableInfo = new TableInfoImpl<Foo, Integer>(connectionSource, null, Foo.class);
 		MappedCreate<Foo, Integer> mappedCreate = MappedCreate.build(databaseType, tableInfo);
 		DatabaseConnection conn = createMock(DatabaseConnection.class);
 		expect(

@@ -14,7 +14,7 @@ import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.StatementExecutor;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class MappedUpdateTest {
 
@@ -30,7 +30,7 @@ public class MappedUpdateTest {
 	@Test(expected = SQLException.class)
 	public void testUpdateNoId() throws Exception {
 		StatementExecutor<NoId, String> se =
-				new StatementExecutor<NoId, String>(databaseType, new TableInfo<NoId, String>(connectionSource, null,
+				new StatementExecutor<NoId, String>(databaseType, new TableInfoImpl<NoId, String>(connectionSource, null,
 						NoId.class), null);
 		NoId noId = new NoId();
 		noId.id = "1";
@@ -40,7 +40,7 @@ public class MappedUpdateTest {
 	@Test
 	public void testUpdateJustId() throws Exception {
 		StatementExecutor<JustId, Integer> se =
-				new StatementExecutor<JustId, Integer>(databaseType, new TableInfo<JustId, Integer>(connectionSource,
+				new StatementExecutor<JustId, Integer>(databaseType, new TableInfoImpl<JustId, Integer>(connectionSource,
 						null, JustId.class), null);
 		JustId justId = new JustId();
 		justId.id = 1;
@@ -49,12 +49,12 @@ public class MappedUpdateTest {
 
 	@Test(expected = SQLException.class)
 	public void testNoIdBuildUpdater() throws Exception {
-		MappedUpdate.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class));
+		MappedUpdate.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class));
 	}
 
 	@Test(expected = SQLException.class)
 	public void testJustIdBuildUpdater() throws Exception {
-		MappedUpdate.build(databaseType, new TableInfo<NoId, Void>(connectionSource, null, NoId.class));
+		MappedUpdate.build(databaseType, new TableInfoImpl<NoId, Void>(connectionSource, null, NoId.class));
 	}
 
 	protected static class NoId {

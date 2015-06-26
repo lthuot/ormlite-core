@@ -20,6 +20,7 @@ import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.field.SqlType;
 import com.j256.ormlite.stmt.query.SimpleComparison;
 import com.j256.ormlite.table.TableInfo;
+import com.j256.ormlite.table.TableInfoImpl;
 
 public class WhereTest extends BaseCoreTest {
 
@@ -450,7 +451,7 @@ public class WhereTest extends BaseCoreTest {
 	@Test
 	public void testIdEq() throws Exception {
 		Where<FooId, Integer> where =
-				new Where<FooId, Integer>(new TableInfo<FooId, Integer>(connectionSource, null, FooId.class), null,
+				new Where<FooId, Integer>(new TableInfoImpl<FooId, Integer>(connectionSource, null, FooId.class), null,
 						databaseType);
 		int val = 112;
 		where.idEq(val);
@@ -465,7 +466,7 @@ public class WhereTest extends BaseCoreTest {
 
 	@Test(expected = SQLException.class)
 	public void testIdEqNoId() throws Exception {
-		new Where<FooNoId, Integer>(new TableInfo<FooNoId, Integer>(connectionSource, null, FooNoId.class), null,
+		new Where<FooNoId, Integer>(new TableInfoImpl<FooNoId, Integer>(connectionSource, null, FooNoId.class), null,
 				databaseType).idEq(100);
 	}
 
@@ -475,7 +476,7 @@ public class WhereTest extends BaseCoreTest {
 		int id = 112132;
 		foo.id = id;
 		Where<FooId, Integer> where =
-				new Where<FooId, Integer>(new TableInfo<FooId, Integer>(connectionSource, null, FooId.class), null,
+				new Where<FooId, Integer>(new TableInfoImpl<FooId, Integer>(connectionSource, null, FooId.class), null,
 						databaseType);
 		BaseDaoImpl<FooId, Integer> fooDao = new BaseDaoImpl<FooId, Integer>(connectionSource, FooId.class) {
 		};
@@ -491,7 +492,7 @@ public class WhereTest extends BaseCoreTest {
 
 	@Test(expected = SQLException.class)
 	public void testIdEqObjectIdNoId() throws Exception {
-		new Where<FooNoId, Integer>(new TableInfo<FooNoId, Integer>(connectionSource, null, FooNoId.class), null,
+		new Where<FooNoId, Integer>(new TableInfoImpl<FooNoId, Integer>(connectionSource, null, FooNoId.class), null,
 				databaseType).idEq(new BaseDaoImpl<FooNoId, Integer>(connectionSource, FooNoId.class) {
 		}, new FooNoId());
 	}
@@ -499,7 +500,7 @@ public class WhereTest extends BaseCoreTest {
 	@Test
 	public void testInSubQuery() throws Exception {
 		TableInfo<ForeignFoo, Integer> tableInfo =
-				new TableInfo<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
+				new TableInfoImpl<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
 		Where<ForeignFoo, Integer> where = new Where<ForeignFoo, Integer>(tableInfo, null, databaseType);
 		BaseDaoImpl<ForeignFoo, Integer> foreignDao =
 				new BaseDaoImpl<ForeignFoo, Integer>(connectionSource, ForeignFoo.class) {
@@ -546,7 +547,7 @@ public class WhereTest extends BaseCoreTest {
 	@Test(expected = SQLException.class)
 	public void testInSubQueryToManySubColumns() throws Exception {
 		TableInfo<ForeignFoo, Integer> tableInfo =
-				new TableInfo<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
+				new TableInfoImpl<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
 		Where<ForeignFoo, Integer> where = new Where<ForeignFoo, Integer>(tableInfo, null, databaseType);
 		BaseDaoImpl<ForeignFoo, Integer> foreignDao =
 				new BaseDaoImpl<ForeignFoo, Integer>(connectionSource, ForeignFoo.class) {
@@ -559,7 +560,7 @@ public class WhereTest extends BaseCoreTest {
 	@Test
 	public void testExistsSubQuery() throws Exception {
 		TableInfo<ForeignFoo, Integer> tableInfo =
-				new TableInfo<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
+				new TableInfoImpl<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
 		Where<ForeignFoo, Integer> where = new Where<ForeignFoo, Integer>(tableInfo, null, databaseType);
 		BaseDaoImpl<ForeignFoo, Integer> foreignDao =
 				new BaseDaoImpl<ForeignFoo, Integer>(connectionSource, ForeignFoo.class) {
@@ -579,7 +580,7 @@ public class WhereTest extends BaseCoreTest {
 	@Test
 	public void testNotExistsSubQuery() throws Exception {
 		TableInfo<ForeignFoo, Integer> tableInfo =
-				new TableInfo<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
+				new TableInfoImpl<ForeignFoo, Integer>(connectionSource, null, ForeignFoo.class);
 		Where<ForeignFoo, Integer> where = new Where<ForeignFoo, Integer>(tableInfo, null, databaseType);
 		BaseDaoImpl<ForeignFoo, Integer> foreignDao =
 				new BaseDaoImpl<ForeignFoo, Integer>(connectionSource, ForeignFoo.class) {
@@ -598,7 +599,7 @@ public class WhereTest extends BaseCoreTest {
 
 	@Test
 	public void testRaw() throws Exception {
-		TableInfo<Foo, Integer> tableInfo = new TableInfo<Foo, Integer>(connectionSource, null, Foo.class);
+		TableInfo<Foo, Integer> tableInfo = new TableInfoImpl<Foo, Integer>(connectionSource, null, Foo.class);
 		Where<Foo, Integer> where = new Where<Foo, Integer>(tableInfo, null, databaseType);
 		String raw = "VAL = 1";
 		int val = 17;
@@ -911,7 +912,7 @@ public class WhereTest extends BaseCoreTest {
 	}
 
 	private TableInfo<Foo, String> createTableInfo() throws SQLException {
-		return new TableInfo<Foo, String>(connectionSource, null, Foo.class);
+		return new TableInfoImpl<Foo, String>(connectionSource, null, Foo.class);
 	}
 
 	protected static class FooNoId {

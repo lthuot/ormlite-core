@@ -101,7 +101,7 @@ public class TableUtils {
 		if (dao instanceof BaseDaoImpl<?, ?>) {
 			return addCreateTableStatements(connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), false);
 		} else {
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(connectionSource, null, dataClass);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(connectionSource, null, dataClass);
 			return addCreateTableStatements(connectionSource, tableInfo, false);
 		}
 	}
@@ -124,7 +124,7 @@ public class TableUtils {
 			return addCreateTableStatements(connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), false);
 		} else {
 			tableConfig.extractFieldTypes(connectionSource);
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(connectionSource.getDatabaseType(), null, tableConfig);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(connectionSource.getDatabaseType(), null, tableConfig);
 			return addCreateTableStatements(connectionSource, tableInfo, false);
 		}
 	}
@@ -151,7 +151,7 @@ public class TableUtils {
 		if (dao instanceof BaseDaoImpl<?, ?>) {
 			return doDropTable(databaseType, connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), ignoreErrors);
 		} else {
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(connectionSource, null, dataClass);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(connectionSource, null, dataClass);
 			return doDropTable(databaseType, connectionSource, tableInfo, ignoreErrors);
 		}
 	}
@@ -180,7 +180,7 @@ public class TableUtils {
 			return doDropTable(databaseType, connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), ignoreErrors);
 		} else {
 			tableConfig.extractFieldTypes(connectionSource);
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(databaseType, null, tableConfig);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(databaseType, null, tableConfig);
 			return doDropTable(databaseType, connectionSource, tableInfo, ignoreErrors);
 		}
 	}
@@ -220,7 +220,7 @@ public class TableUtils {
 		if (dao instanceof BaseDaoImpl<?, ?>) {
 			return doCreateTable(connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), ifNotExists);
 		} else {
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(connectionSource, null, dataClass);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(connectionSource, null, dataClass);
 			return doCreateTable(connectionSource, tableInfo, ifNotExists);
 		}
 	}
@@ -232,7 +232,7 @@ public class TableUtils {
 			return doCreateTable(connectionSource, ((BaseDaoImpl<?, ?>) dao).getTableInfo(), ifNotExists);
 		} else {
 			tableConfig.extractFieldTypes(connectionSource);
-			TableInfo<T, ID> tableInfo = new TableInfo<T, ID>(connectionSource.getDatabaseType(), null, tableConfig);
+			TableInfoImpl<T, ID> tableInfo = new TableInfoImpl<T, ID>(connectionSource.getDatabaseType(), null, tableConfig);
 			return doCreateTable(connectionSource, tableInfo, ifNotExists);
 		}
 	}

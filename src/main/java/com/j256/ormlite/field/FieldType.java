@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Map;
 
-import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.BaseForeignCollection;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -74,7 +73,7 @@ public class FieldType {
 	private FieldType foreignIdField;
 	private TableInfo<?, ?> foreignTableInfo;
 	private FieldType foreignFieldType;
-	private BaseDaoImpl<?, ?> foreignDao;
+	private Dao<?, ?> foreignDao;
 	private MappedQueryForId<Object, Object> mappedQueryForId;
 
 	/**
@@ -273,8 +272,6 @@ public class FieldType {
 	/**
 	 * Because we go recursive in a lot of situations if we construct DAOs inside of the FieldType constructor, we have
 	 * to do this 2nd pass initialization so we can better use the DAO caches.
-	 * 
-	 * @see BaseDaoImpl#initialize()
 	 */
 	public void configDaoInformation(ConnectionSource connectionSource, Class<?> parentClass) throws SQLException {
 		Class<?> fieldClass = field.getType();
@@ -282,7 +279,7 @@ public class FieldType {
 		TableInfo<?, ?> foreignTableInfo;
 		final FieldType foreignIdField;
 		final FieldType foreignFieldType;
-		final BaseDaoImpl<?, ?> foreignDao;
+		final Dao<?, ?> foreignDao;
 		final MappedQueryForId<Object, Object> mappedQueryForId;
 
 		String foreignColumnName = fieldConfig.getForeignColumnName();
@@ -290,12 +287,12 @@ public class FieldType {
 			DatabaseTableConfig<?> tableConfig = fieldConfig.getForeignTableConfig();
 			if (tableConfig == null) {
 				// NOTE: the cast is necessary for maven
-				foreignDao = (BaseDaoImpl<?, ?>) DaoManager.createDao(connectionSource, fieldClass);
+				foreignDao = DaoManager.createDao(connectionSource, fieldClass);
 				foreignTableInfo = foreignDao.getTableInfo();
 			} else {
 				tableConfig.extractFieldTypes(connectionSource);
 				// NOTE: the cast is necessary for maven
-				foreignDao = (BaseDaoImpl<?, ?>) DaoManager.createDao(connectionSource, tableConfig);
+				foreignDao = DaoManager.createDao(connectionSource, tableConfig);
 				foreignTableInfo = foreignDao.getTableInfo();
 			}
 			if (foreignColumnName == null) {
@@ -325,7 +322,7 @@ public class FieldType {
 			if (tableConfig != null) {
 				tableConfig.extractFieldTypes(connectionSource);
 				// NOTE: the cast is necessary for maven
-				foreignDao = (BaseDaoImpl<?, ?>) DaoManager.createDao(connectionSource, tableConfig);
+				foreignDao = DaoManager.createDao(connectionSource, tableConfig);
 			} else {
 				/*
 				 * Initially we were only doing this just for BaseDaoEnabled.class and isForeignAutoCreate(). But we
@@ -334,7 +331,7 @@ public class FieldType {
 				 * allows us to make use of any table configs.
 				 */
 				// NOTE: the cast is necessary for maven
-				foreignDao = (BaseDaoImpl<?, ?>) DaoManager.createDao(connectionSource, fieldClass);
+				foreignDao = DaoManager.createDao(connectionSource, fieldClass);
 			}
 			foreignTableInfo = foreignDao.getTableInfo();
 			foreignIdField = foreignTableInfo.getIdField();
@@ -376,20 +373,16 @@ public class FieldType {
 			}
 			Class<?> collectionClazz = (Class<?>) genericArguments[0];
 			DatabaseTableConfig<?> tableConfig = fieldConfig.getForeignTableConfig();
-			BaseDaoImpl<Object, Object> foundDao;
+			Dao<Object, Object> foundDao;
 			if (tableConfig == null) {
-				@SuppressWarnings("unchecked")
-				BaseDaoImpl<Object, Object> castDao =
-						(BaseDaoImpl<Object, Object>) DaoManager.createDao(connectionSource, collectionClazz);
+				Dao<Object, Object> castDao = DaoManager.createDao(connectionSource, collectionClazz);
 				foundDao = castDao;
 			} else {
-				@SuppressWarnings("unchecked")
-				BaseDaoImpl<Object, Object> castDao =
-						(BaseDaoImpl<Object, Object>) DaoManager.createDao(connectionSource, tableConfig);
+				Dao<Object, Object> castDao = DaoManager.createDao(connectionSource, tableConfig);
 				foundDao = castDao;
 			}
 			foreignDao = foundDao;
-			foreignFieldType = findForeignFieldType(collectionClazz, parentClass, (BaseDaoImpl<?, ?>) foundDao);
+			foreignFieldType = findForeignFieldType(collectionClazz, parentClass, foundDao);
 			foreignIdField = null;
 			foreignTableInfo = null;
 			mappedQueryForId = null;
@@ -988,7 +981,7 @@ public class FieldType {
 			@SuppressWarnings("unchecked")
 			MappedQueryForId<Object, Object> castMappedQueryForId =
 					(MappedQueryForId<Object, Object>) MappedQueryForId.build(connectionSource.getDatabaseType(),
-							((BaseDaoImpl<?, ?>) foreignDao).getTableInfo(), foreignIdField);
+							foreignDao.getTableInfo(), foreignIdField);
 			mappedQueryForId = castMappedQueryForId;
 		}
 		levelCounters.autoRefreshLevel++;
@@ -1033,7 +1026,7 @@ public class FieldType {
 	 * If we have a class Foo with a collection of Bar's then we go through Bar's DAO looking for a Foo field. We need
 	 * this field to build the query that is able to find all Bar's that have foo_id that matches our id.
 	 */
-	private FieldType findForeignFieldType(Class<?> clazz, Class<?> foreignClass, BaseDaoImpl<?, ?> foreignDao)
+	private FieldType findForeignFieldType(Class<?> clazz, Class<?> foreignClass, Dao<?, ?> foreignDao)
 			throws SQLException {
 		String foreignColumnName = fieldConfig.getForeignCollectionForeignFieldName();
 		for (FieldType fieldType : foreignDao.getTableInfo().getFieldTypes()) {
